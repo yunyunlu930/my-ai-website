@@ -30,7 +30,13 @@ export async function POST(req: NextRequest) {
     const base64 = buffer.toString('base64');
 
     return NextResponse.json({ success: true, audio: base64 });
-  } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message || 'TTS 產生失敗' }, { status: 500 });
+  } catch (err: unknown) {
+    let errorMsg = 'TTS 產生失敗';
+    if (err instanceof Error) {
+      errorMsg = err.message;
+    } else if (typeof err === 'string') {
+      errorMsg = err;
+    }
+    return NextResponse.json({ success: false, error: errorMsg }, { status: 500 });
   }
 }

@@ -224,7 +224,7 @@ export default function AILangPage() {
         setAudioCache(prev => ({ ...prev, [sentenceKey]: audioUrl }));
       }
       // 停止其他正在播放的音訊
-      Object.values(audioRefs.current).forEach(a => { try { a?.pause(); a && (a.currentTime = 0); } catch {} });
+      Object.values(audioRefs.current).forEach(a => { try { if (a) { a.pause(); a.currentTime = 0; } } catch {} });
       // 建立新的 audio 播放
       if (!audioRefs.current[sentenceKey]) {
         audioRefs.current[sentenceKey] = new Audio(audioUrl);
@@ -235,7 +235,7 @@ export default function AILangPage() {
         audioRefs.current[sentenceKey]!.src = audioUrl;
       }
       audioRefs.current[sentenceKey]?.play();
-    } catch (err) {
+    } catch {
       alert('語音播放失敗');
       setPlayingAudio(prev => ({ ...prev, [sentenceKey]: false }));
     }
@@ -466,11 +466,11 @@ export default function AILangPage() {
                                       </button>
                                       <div className="text-left">
                                         <p className="text-sm font-medium text-gray-800 mb-1">例句：</p>
-                                        <p className="text-sm text-gray-700 italic">"{wordGroup.sentences[word].例句}"</p>
+                                        <p className="text-sm text-gray-700 italic">&quot;{wordGroup.sentences[word].例句}&quot;</p>
                                       </div>
                                       <div className="text-left">
                                         <p className="text-sm font-medium text-gray-800 mb-1">中文意思：</p>
-                                        <p className="text-sm text-gray-600">"{wordGroup.sentences[word].例句中文意思}"</p>
+                                        <p className="text-sm text-gray-600">&quot;{wordGroup.sentences[word].例句中文意思}&quot;</p>
                                       </div>
                                     </div>
                                   )}

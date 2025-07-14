@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     let body;
     try {
       body = await request.json();
-    } catch (parseError) {
+    } catch {
       return NextResponse.json(
         { 
           success: false,
@@ -140,7 +140,7 @@ export async function POST(request: NextRequest) {
     let parsedResponse;
     try {
       parsedResponse = JSON.parse(aiResponse);
-    } catch (parseError) {
+    } catch {
       return NextResponse.json(
         { 
           success: false,

@@ -138,10 +138,10 @@ export default function AIChatPage() {
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSubmit(e as any);
+      handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>);
     }
   };
 
@@ -164,14 +164,14 @@ export default function AIChatPage() {
             <input
               type="text"
               value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
+              onChange={event => setInputText(event.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="請輸入您的問題... (按 Enter 發送)"
               className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <select
               value={selectedPersonality}
-              onChange={(e) => setSelectedPersonality(e.target.value)}
+              onChange={event => setSelectedPersonality(event.target.value)}
               className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
             >
               {aiPersonalities.map((personality) => (
@@ -244,7 +244,7 @@ export default function AIChatPage() {
                         {message.personality} 模式
                       </div>
                     )}
-                    <div className="whitespace-pre-wrap">{message.content}</div>
+                    <div className="whitespace-pre-wrap">{message.content.replace(/"/g, "&quot;")}</div>
                     <div className={`text-xs mt-2 ${
                       message.isUser ? 'text-blue-100' : 'text-gray-500'
                     }`}>
